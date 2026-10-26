@@ -1,0 +1,23 @@
+{
+  "name": "ComfyUI MiniMax H3 Motion Context V2 + Jupyter",
+  "imageName": "sirveillanceai/comfyui-minimax-h3:latest",
+  "category": "NVIDIA",
+  "isServerless": false,
+  "isPublic": false,
+  "containerDiskInGb": 50,
+  "volumeInGb": 150,
+  "volumeMountPath": "/workspace",
+  "ports": [
+    "8188/http",
+    "8888/http",
+    "22/tcp"
+  ],
+  "env": {
+    "HF_TOKEN": "",
+    "JUPYTER_PASSWORD": "",
+    "COMFYUI_ARGS": "",
+    "DOWNLOAD_FP16_VAE": "0",
+    "SKIP_MODEL_DOWNLOAD": "0"
+  },
+  "readme": "ComfyUI with Jason's MiniMax H3 Motion Context V2 workflow (Singularity v2 int8 + ref2v turbo 4-step LoRA), ComfyUI-Easy-Media, KJNodes, SageAttention 2 and JupyterLab.\n\nPorts: 8188 = ComfyUI, 8888 = JupyterLab, 22 = SSH.\n\nFirst boot downloads ~56 GB of models into /workspace/models (watch /workspace/logs/models.log in Jupyter). Later boots skip anything already there.\n\nThe workflow is preloaded in ComfyUI's Workflows sidebar. Outputs and Easy-Media projects save to /workspace/output.\n\nRecommended GPU: 48 GB+ (RTX PRO 6000, L40S, A6000) or RTX 5090. The nvfp4 text encoder runs fastest on Blackwell cards."
+}
