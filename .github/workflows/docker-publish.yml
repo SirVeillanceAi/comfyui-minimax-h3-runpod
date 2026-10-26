@@ -1,6 +1,5 @@
 # Builds the image on GitHub's servers and pushes it to your Docker Hub account.
-# Needs two repository secrets (Settings > Secrets and variables > Actions):
-#   DOCKERHUB_USERNAME  your Docker Hub username
+# Needs one repository secret (Settings > Secrets and variables > Actions):
 #   DOCKERHUB_TOKEN     a Docker Hub access token (hub.docker.com > Account settings > Personal access tokens)
 name: Build and push to Docker Hub
 
@@ -12,6 +11,7 @@ on:
 
 env:
   IMAGE_NAME: comfyui-minimax-h3
+  DOCKERHUB_USER: sirveillanceai
 
 jobs:
   build:
@@ -32,7 +32,7 @@ jobs:
 
       - uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          username: ${{ env.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Short commit id
@@ -45,5 +45,5 @@ jobs:
           push: true
           provenance: false
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.sha }}
+            ${{ env.DOCKERHUB_USER }}/${{ env.IMAGE_NAME }}:latest
+            ${{ env.DOCKERHUB_USER }}/${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.sha }}

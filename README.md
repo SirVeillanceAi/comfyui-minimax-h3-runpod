@@ -51,8 +51,7 @@ docker login
 **B. Let GitHub build it** (nothing heavy on your PC):
 
 1. Create a new repository on github.com (e.g. `SirVeillanceAi/comfyui-minimax-h3-runpod`) and upload this whole folder.
-2. In the repo: **Settings → Secrets and variables → Actions → New repository secret**, add
-   `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN` (make the token at hub.docker.com → Account settings → Personal access tokens).
+2. In the repo: **Settings → Secrets and variables → Actions → New repository secret**, add one secret: Name `DOCKERHUB_TOKEN`, Value = a Docker Hub access token (hub.docker.com → Account settings → Personal access tokens, Read & Write).
 3. **Actions** tab → *Build and push to Docker Hub* → **Run workflow**. It takes about 15–25 minutes.
 
 ## Step 2 — create the RunPod template (pick one)
