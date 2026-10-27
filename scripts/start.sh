@@ -10,6 +10,11 @@ export MODELS_DIR="$WS/models"
 mkdir -p "$LOGS" "$WS/output" "$WS/input" "$WS/comfyui-user/default/workflows"
 
 log() { echo "[start] $*"; }
+export HF_HOME="${HF_HOME:-$WS/.cache/huggingface}"
+if ! mountpoint -q "$WS" 2>/dev/null; then
+  log "WARNING: $WS is not a separate volume — it's on the 50 GB container disk, which is too small"
+  log "WARNING: for the ~56 GB of models. Redeploy with Volume Disk = 150 GB."
+fi
 
 # ---------- SSH (RunPod injects PUBLIC_KEY) ----------
 if [ -n "${PUBLIC_KEY:-}" ]; then

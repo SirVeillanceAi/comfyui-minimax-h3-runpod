@@ -11,7 +11,7 @@ A Docker image + RunPod template that boots ComfyUI with everything your
 
 ## What's inside
 
-**Baked into the image:** ComfyUI (latest, needs 0.34+ for H3 Motion Context), PyTorch CUDA 12.8,
+**Baked into the image:** ComfyUI (latest, needs 0.34+ for H3 Motion Context), PyTorch CUDA 13.0,
 SageAttention 2 (compiled on the pod for its own GPU at first boot, then cached in /workspace/.cache/sage),
 JupyterLab, ffmpeg, and these custom nodes:
 

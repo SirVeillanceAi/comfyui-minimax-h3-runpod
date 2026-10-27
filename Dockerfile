@@ -5,7 +5,7 @@
 # What's downloaded on first boot: the ~56 GB of models, into /workspace/models (your network volume),
 # so they survive pod restarts and the image stays small enough to push.
 
-ARG CUDA_IMAGE=nvidia/cuda:12.8.1-cudnn-devel-ubuntu24.04
+ARG CUDA_IMAGE=nvidia/cuda:13.0.2-cudnn-devel-ubuntu24.04
 FROM ${CUDA_IMAGE}
 
 ENV DEBIAN_FRONTEND=noninteractive \
@@ -14,7 +14,8 @@ ENV DEBIAN_FRONTEND=noninteractive \
     PIP_DISABLE_PIP_VERSION_CHECK=1 \
     VIRTUAL_ENV=/opt/venv \
     PATH=/opt/venv/bin:$PATH \
-    COMFYUI_DIR=/opt/ComfyUI
+    COMFYUI_DIR=/opt/ComfyUI \
+    HF_HOME=/workspace/.cache/huggingface
 
 # ---- system packages (ffmpeg is a hard requirement of ComfyUI-Easy-Media) ----
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -25,8 +26,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && python3 -m venv /opt/venv \
     && pip install --upgrade pip wheel setuptools packaging
 
-# ---- PyTorch (CUDA 12.8 wheels: Ampere through Blackwell / RTX 5090) ----
-ARG TORCH_INDEX_URL=https://download.pytorch.org/whl/cu128
+# ---- PyTorch (CUDA 13.0 wheels; ComfyUI's optimized int8/nvfp4 kernels need cu130+) ----
+ARG TORCH_INDEX_URL=https://download.pytorch.org/whl/cu130
 RUN pip install torch torchvision torchaudio --index-url ${TORCH_INDEX_URL}
 
 # ---- ComfyUI (needs 0.34.0+ for native H3 audio/video keyframes used by Motion Context) ----
